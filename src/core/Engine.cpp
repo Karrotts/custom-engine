@@ -1,0 +1,60 @@
+#include "Engine.h"
+#include "Logger.h"
+#include "Window.h"
+#include "glm/vec4.hpp"
+
+// auto detect Nvidia or AMD GPU
+extern "C" {
+  __declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;
+  __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+
+Engine::Engine() {
+  window = nullptr;
+  lastFrame = 0;
+}
+
+bool Engine::initialize(Window *window) {
+  this->window = window;
+
+  glfwInit();
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OPENGL_MAJOR_VERSION);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OPENGL_MINOR_VERSION);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+  std::string openGLVersion = "OpenGL v" + std::to_string(OPENGL_MAJOR_VERSION) + "." + std::to_string(OPENGL_MINOR_VERSION);
+  Logger::info("Custom Engine v0.0 - " + openGLVersion);
+  window->printDisplayInfo();
+
+  return true;
+}
+
+double Engine::getDeltaTime() {
+  GLfloat currentFrame = glfwGetTime();
+  GLfloat deltaTime = currentFrame - lastFrame;
+  lastFrame = currentFrame;
+  return deltaTime;
+}
+
+void Engine::update() {
+  window->tick(getDeltaTime());
+}
+
+void Engine::terminate() {
+  glfwTerminate();
+}
+
+Window * Engine::getWindow() {
+  return window;
+}
+
+void Engine::render() {
+  glm::vec4 clear_color = glm::vec4(0.05f, 0.05f, 0.1f, 1.00f);
+  glClear(GL_COLOR_BUFFER_BIT);
+  glClearColor(clear_color.r, clear_color.g, clear_color.b, 1.0f);
+}
+
+void Engine::pollEvents() {
+  glfwSwapBuffers(window->getWindow());
+  glfwPollEvents();
+}
