@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "Logger.h"
+#include "Window.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
@@ -35,51 +35,68 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
 
 void Shader::use() {
     glUseProgram(ID);
+    GLFWwindow* window = glfwGetCurrentContext();
+
+    // pass in time as uTime
+    float time = glfwGetTime();
+    glUniform1f(getUniformLocation("uTime"), time);
+
+    // pass in resolution as uResolution
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+    glUniform2f(getUniformLocation("uResolution"), width, height);
+
+    // pass in the mouse position as uMouse
+    double mouseX, mouseY;
+    glfwGetCursorPos(window, &mouseX, &mouseY);
+    mouseY = height - mouseY;
+    float normX = static_cast<float>(mouseX) / static_cast<float>(width);
+    float normY = static_cast<float>(mouseY) / static_cast<float>(height);
+    glUniform2f(getUniformLocation("uMouse"), normX, normY);
 }
 
-void Shader::setBool(const std::string& name, bool value) const {
+void Shader::setBool(const std::string& name, bool value) {
     glUniform1i(getUniformLocation(name), (int)value);
 }
 
-void Shader::setInt(const std::string& name, int value) const {
+void Shader::setInt(const std::string& name, int value) {
     glUniform1i(getUniformLocation(name), value);
 }
 
-void Shader::setFloat(const std::string& name, float value) const {
+void Shader::setFloat(const std::string& name, float value) {
     glUniform1f(getUniformLocation(name), value);
 }
 
-void Shader::setVec2f(const std::string& name, float x, float y) const {
+void Shader::setVec2f(const std::string& name, float x, float y) {
     glUniform2f(getUniformLocation(name), x, y);
 }
 
-void Shader::setVec3f(const std::string& name, float x, float y, float z) const {
+void Shader::setVec3f(const std::string& name, float x, float y, float z) {
     glUniform3f(getUniformLocation(name), x, y, z);
 }
 
-void Shader::setVec4f(const std::string& name, float x, float y, float z, float a) const {
+void Shader::setVec4f(const std::string& name, float x, float y, float z, float a) {
     glUniform4f(getUniformLocation(name), x, y, z, a);
 }
 
-void Shader::setVec2i(const std::string& name, int x, int y) const {
+void Shader::setVec2i(const std::string& name, int x, int y) {
     glUniform2i(getUniformLocation(name), x, y);
 }
 
-void Shader::setVec3i(const std::string& name, int x, int y, int z) const {
+void Shader::setVec3i(const std::string& name, int x, int y, int z) {
     glUniform3i(getUniformLocation(name), x, y, z);
 }
 
-void Shader::setVec4i(const std::string& name, int x, int y, int z, int a) const {
+void Shader::setVec4i(const std::string& name, int x, int y, int z, int a) {
     glUniform4i(getUniformLocation(name), x, y, z, a);
 }
 
-int Shader::getUniformLocation(const std::string& name) const
-{
-    int location = glGetUniformLocation(ID, name.c_str());
+GLint Shader::getUniformLocation(const std::string& name) {
+    if (uniformCache.find(name) != uniformCache.end())
+        return uniformCache[name];
 
-    if (location == -1) {
-        std::cout << "ERROR::SHADER::UNIFORM_NOT_FOUND: " << name.c_str() << std::endl;
-    }
+    GLint location = glGetUniformLocation(ID, name.c_str());
+    uniformCache[name] = location;
     return location;
 }
 

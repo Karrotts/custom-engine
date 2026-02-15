@@ -7,10 +7,13 @@ layout (location = 2) in vec2 texCoords;
 out vec4 fragColor;
 out vec2 TexCoords;
 
-uniform float uResolution;
+uniform float uTime;
+uniform vec2 uResolution;
+uniform vec2 uMouse;
 
 void main() {
-    gl_Position = vec4(position.x / uResolution, position.yz, 1.0);
+    float res = uResolution.x / uResolution.y;
+    gl_Position = vec4(position.x / res, position.yz, 1.0);
     fragColor = vec4(color.xyz, 1.0);
     TexCoords = texCoords;
 }

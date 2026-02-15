@@ -33,7 +33,6 @@ int main() {
     shader.use();
     texture.use();
     shader.setInt("uTexture", 0);
-    shader.setFloat("uResolution", engine.getWindow()->getResolution());
     mesh.draw();
 
     engine.pollEvents();
