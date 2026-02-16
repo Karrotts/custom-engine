@@ -1,0 +1,7 @@
+==== TO DO ===
+1. Create rendering pipeline and rework some of the rendering steps
+
+2. Might need to create a material registry which the renderer can use. This would allow you to register
+   materials to be reused by the render then the "RenderableObject" will just contain an ID to the material
+
+3. Rendering pipeline should have a queue of all the renderable objects then group by material ID each frame

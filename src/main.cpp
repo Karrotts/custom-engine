@@ -1,8 +1,11 @@
 #include <iostream>
 
 #include "core/Engine.h"
-#include "core/Mesh.h"
-#include "core/Texture.h"
+#include "prototypes/Square.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
+
 
 int main() {
   Engine engine;
@@ -13,27 +16,14 @@ int main() {
     std::cout << "Failed to initialize engine!" << std::endl;
     return -1;
   }
-  Shader shader = Shader("assets/shaders/default.vert", "assets/shaders/default.frag");
-  Mesh mesh = Mesh({
-    { glm::vec3(0.5f,  0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1, 1) },
-    { glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0, 1) },
-    { glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1, 0) },
-    { glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0, 0) }
-  }, {
-    0, 1, 2,
-    2, 3, 1
-  });
-  Texture texture = Texture("assets/textures/tex_DebugUVTiles.png");
+
+  Square square = Square();
 
   while (!window.shouldClose()) {
     engine.update();
     engine.render();
 
-    // use shader and draw
-    shader.use();
-    texture.use();
-    shader.setInt("uTexture", 0);
-    mesh.draw();
+    square.renderable.render();
 
     engine.pollEvents();
   }

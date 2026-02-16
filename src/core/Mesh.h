@@ -1,9 +1,6 @@
-//
-// Created by wesle on 2/15/2026.
-//
-
 #ifndef GAME_ENGINE_MESH_H
 #define GAME_ENGINE_MESH_H
+
 #include <vector>
 
 #include "Shader.h"

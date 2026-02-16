@@ -17,6 +17,11 @@ add_executable(game_engine
         src/core/Shader.h
         src/core/Mesh.h
         src/core/Texture.h
+        src/core/Transform.h
+        src/core/RenderableObject.cpp
+        src/core/RenderableObject.h
+        src/core/Material.h
+        src/prototypes/Square.h
 )
 
 include(FetchContent)
