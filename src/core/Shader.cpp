@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 
+#include "Logger.h"
 #include "Window.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -28,6 +29,8 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
     {
         glGetProgramInfoLog(ID, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+    } else {
+        Logger::debug("Shader Loaded: " + std::to_string(ID));
     }
     glDeleteShader(vertex);
     glDeleteShader(fragment);
@@ -136,4 +139,10 @@ std::string Shader::loadFile(const char* path)
     }
 
     return buffer.str();
+}
+
+
+Shader::~Shader() {
+    Logger::debug("Unloaded Shader: " + std::to_string(ID));
+    glDeleteProgram(ID);
 }
