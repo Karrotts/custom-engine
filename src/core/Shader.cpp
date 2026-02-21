@@ -5,9 +5,9 @@
 #include <sstream>
 
 #include "Logger.h"
-#include "Window.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "glm/gtc/type_ptr.hpp"
 
 
 Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
@@ -28,7 +28,7 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
     if (!success)
     {
         glGetProgramInfoLog(ID, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        Logger::error("SHADER::FAILED_TO_LINK_PROGRAM: " + std::string(infoLog));
     } else {
         Logger::debug("Shader Loaded: " + std::to_string(ID));
     }
@@ -94,6 +94,18 @@ void Shader::setVec4i(const std::string& name, int x, int y, int z, int a) {
     glUniform4i(getUniformLocation(name), x, y, z, a);
 }
 
+void Shader::setMat2(const std::string &name, const glm::mat2 &mat) {
+    glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
+}
+
+void Shader::setMat3(const std::string &name, const glm::mat3 &mat) {
+    glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
+}
+
+void Shader::setMat4(const std::string &name, const glm::mat4 &matrix) {
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
 GLint Shader::getUniformLocation(const std::string& name) {
     if (uniformCache.find(name) != uniformCache.end())
         return uniformCache[name];
@@ -115,7 +127,7 @@ int Shader::compile(const char* shader, int shaderType)
     if (!success)
     {
         glGetShaderInfoLog(id, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << infoLog << std::endl;
+        Logger::error("SHADER::FAILED_TO_COMPILE_SHADER: " + std::string(shader));
         return 0;
     }
     return id;
@@ -134,8 +146,7 @@ std::string Shader::loadFile(const char* path)
     }
     catch (...)
     {
-        std::cerr << "ERROR::SHADER::FAILED_TO_READ_FILE: "
-            << path << std::endl;
+        Logger::error("SHADER::FAILED_TO_READ_FILE: " + std::string(path));
     }
 
     return buffer.str();

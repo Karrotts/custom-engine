@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 #include "glad/glad.h"
+#include "glm/fwd.hpp"
 
 class Shader {
 public:
@@ -24,6 +25,9 @@ public:
   void setVec2i(const std::string& name, int x, int y);
   void setVec3i(const std::string& name, int x, int y, int z);
   void setVec4i(const std::string& name, int x, int y, int z, int a);
+  void setMat2(const std::string& name, const glm::mat2& mat);
+  void setMat3(const std::string& name, const glm::mat3& mat);
+  void setMat4(const std::string& name, const glm::mat4& matrix);
   GLint getUniformLocation(const std::string& name);
 
 private:

@@ -18,6 +18,8 @@ int main() {
   }
 
   Square square = Square();
+  square.renderable.transform.setScale(glm::vec3(1));
+  square.renderable.transform.setPosition(glm::vec3(-0.3, 0.2, 0));
 
   while (!window.shouldClose()) {
     engine.update();

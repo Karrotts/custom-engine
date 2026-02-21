@@ -3,11 +3,11 @@
 RenderableObject::RenderableObject(Mesh *mesh, Material *material) {
   this->mesh = mesh;
   this->material = material;
+  this->transform = Transform();
 }
 
 void RenderableObject::render() {
-  material->shader->use();
-  material->texture->use();
-  material->shader->setInt("uTexture", 0);
+  material->use();
+  material->shader->setMat4("uTransform", transform.getTransformationMatrix());
   mesh->draw();
 }

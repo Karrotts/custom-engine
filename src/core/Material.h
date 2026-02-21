@@ -5,10 +5,17 @@
 
 struct Material {
   Shader* shader;
-  Texture* texture; // todo implement multiple texture support
+  Texture* texture;
   Material(Shader* shader, Texture* texture) {
     this->shader = shader;
     this->texture = texture;
+  }
+
+  void use() {
+    shader->use();
+    texture->use();
+    // todo implement multiple texture support
+    this->shader->setInt("uTexture", 0);
   }
 };
 

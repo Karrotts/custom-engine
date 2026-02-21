@@ -17,11 +17,12 @@ add_executable(game_engine
         src/core/Shader.h
         src/core/Mesh.h
         src/core/Texture.h
-        src/core/Transform.h
+        src/math/Transform.h
         src/core/RenderableObject.cpp
         src/core/RenderableObject.h
         src/core/Material.h
         src/prototypes/Square.h
+        src/math/Transform.cpp
 )
 
 include(FetchContent)

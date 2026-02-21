@@ -1,6 +1,0 @@
-#ifndef GAME_ENGINE_TRANSFORM_H
-#define GAME_ENGINE_TRANSFORM_H
-
-struct Transform { };
-
-#endif //GAME_ENGINE_TRANSFORM_H

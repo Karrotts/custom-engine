@@ -10,10 +10,11 @@ out vec2 TexCoords;
 uniform float uTime;
 uniform vec2 uResolution;
 uniform vec2 uMouse;
+uniform mat4 uTransform;
 
 void main() {
     float res = uResolution.x / uResolution.y;
-    gl_Position = vec4(position.x / res, position.yz, 1.0);
+    gl_Position = uTransform * vec4(position.x / res, position.y + sin(uTime / 2), position.z, 1.0);
     fragColor = vec4(color.xyz, 1.0);
     TexCoords = texCoords;
 }
