@@ -2,10 +2,10 @@
 
 #include "core/Engine.h"
 #include "primitives/Square.h"
+#include "core/Camera.h"
+#include "primitives/Primitives.h"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "glm/ext/scalar_constants.hpp"
-#include "primitives/Primitives.h"
 #include "stb/stb_image.h"
 
 
@@ -25,15 +25,17 @@ int main() {
   Material mat(&shader, &texture);
   RenderableObject renderable(&cube, &mat);
 
-  Transform camera = Transform();
-  camera.setPosition(glm::vec3(0.0f, 0.0f, -3.0f));
+  Camera camera(&window);
+  camera.transform.setPosition(glm::vec3(0.0f, 0.0f, -3.0f));
 
   while (!window.shouldClose()) {
     engine.update();
     engine.render();
 
     renderable.render();
-    shader.setMat4("uView", camera.getTransformationMatrix());
+    shader.setMat4("uView", camera.transform.getTransformationMatrix());
+    shader.setMat4("uProjection", camera.getProjectionMatrix());
+
     glm::vec3 rotation = renderable.transform.getRotation();
     rotation.y += glm::radians(50.0f * engine.getDeltaTime());
     rotation.z += glm::radians(50.0f * engine.getDeltaTime());
