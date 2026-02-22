@@ -34,14 +34,12 @@ bool Engine::initialize(Window *window) {
 }
 
 double Engine::getDeltaTime() {
-  double currentFrame = glfwGetTime();
-  double deltaTime = currentFrame - lastFrame;
-  lastFrame = currentFrame;
   return deltaTime;
 }
 
 void Engine::update() {
-  window->tick(getDeltaTime());
+  this->updateDeltaTime();
+  window->tick(deltaTime);
 }
 
 void Engine::terminate() {
@@ -54,6 +52,12 @@ Window * Engine::getWindow() {
 
 Engine::~Engine() {
   Logger::info("Custom Engine Closed");
+}
+
+void Engine::updateDeltaTime() {
+  double currentFrame = glfwGetTime();
+  deltaTime = currentFrame - lastFrame;
+  lastFrame = currentFrame;
 }
 
 void Engine::render() {

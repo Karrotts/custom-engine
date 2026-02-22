@@ -34,7 +34,10 @@ int main() {
 
     renderable.render();
     shader.setMat4("uView", camera.getTransformationMatrix());
-    renderable.transform.setRotation(glm::vec3(0.0f, glfwGetTime(), glfwGetTime()));
+    glm::vec3 rotation = renderable.transform.getRotation();
+    rotation.y += glm::radians(50.0f * engine.getDeltaTime());
+    rotation.z += glm::radians(50.0f * engine.getDeltaTime());
+    renderable.transform.setRotation(rotation);
 
     engine.pollEvents();
   }

@@ -22,6 +22,8 @@ public:
 private:
   Window *window;
   double lastFrame;
+  double deltaTime;
+  void updateDeltaTime();
 };
 
 
