@@ -26,6 +26,7 @@ add_executable(game_engine
         src/primitives/Primitives.h
         src/core/Camera.cpp
         src/core/Camera.h
+        src/primitives/Sphere.h
 )
 
 include(FetchContent)

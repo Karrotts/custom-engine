@@ -6,6 +6,8 @@
 #include "primitives/Primitives.h"
 
 #define STB_IMAGE_IMPLEMENTATION
+#include "primitives/Primitives.h"
+#include "primitives/Sphere.h"
 #include "stb/stb_image.h"
 
 
@@ -20,10 +22,11 @@ int main() {
   }
 
   Mesh cube = createCube();
+  Mesh sphere = createSphere(1, 64);
   Shader shader("assets/shaders/default.vert", "assets/shaders/default.frag");
   Texture texture("assets/textures/tex_DebugUVTiles.png");
   Material mat(&shader, &texture);
-  RenderableObject renderable(&cube, &mat);
+  RenderableObject renderable(&sphere, &mat);
 
   Camera camera(&window);
   camera.transform.setPosition(glm::vec3(0.0f, 0.0f, -3.0f));
