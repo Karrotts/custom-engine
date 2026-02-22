@@ -21,8 +21,9 @@ add_executable(game_engine
         src/core/RenderableObject.cpp
         src/core/RenderableObject.h
         src/core/Material.h
-        src/prototypes/Square.h
+        src/primitives/Square.h
         src/math/Transform.cpp
+        src/primitives/Primitives.h
 )
 
 include(FetchContent)

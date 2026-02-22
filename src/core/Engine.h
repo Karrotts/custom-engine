@@ -18,9 +18,10 @@ public:
   void pollEvents();
   void terminate();
   Window* getWindow();
+  ~Engine();
 private:
   Window *window;
-  GLfloat lastFrame;
+  double lastFrame;
 };
 
 

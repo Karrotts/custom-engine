@@ -24,14 +24,18 @@ bool Engine::initialize(Window *window) {
 
   std::string openGLVersion = "OpenGL v" + std::to_string(OPENGL_MAJOR_VERSION) + "." + std::to_string(OPENGL_MINOR_VERSION);
   Logger::info("Custom Engine v0.0 - " + openGLVersion);
+
+  glEnable(GL_DEPTH_TEST); // todo move this to camera class
+
   window->printDisplayInfo();
+  lastFrame = glfwGetTime();
 
   return true;
 }
 
 double Engine::getDeltaTime() {
-  GLfloat currentFrame = glfwGetTime();
-  GLfloat deltaTime = currentFrame - lastFrame;
+  double currentFrame = glfwGetTime();
+  double deltaTime = currentFrame - lastFrame;
   lastFrame = currentFrame;
   return deltaTime;
 }
@@ -48,9 +52,13 @@ Window * Engine::getWindow() {
   return window;
 }
 
+Engine::~Engine() {
+  Logger::info("Custom Engine Closed");
+}
+
 void Engine::render() {
   glm::vec4 clear_color = glm::vec4(0.05f, 0.05f, 0.1f, 1.00f);
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(clear_color.r, clear_color.g, clear_color.b, 1.0f);
 }
 

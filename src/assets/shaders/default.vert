@@ -10,11 +10,12 @@ out vec2 TexCoords;
 uniform float uTime;
 uniform vec2 uResolution;
 uniform vec2 uMouse;
-uniform mat4 uTransform;
+uniform mat4 uModel;
+uniform mat4 uProjection;
+uniform mat4 uView;
 
 void main() {
-    float res = uResolution.x / uResolution.y;
-    gl_Position = uTransform * vec4(position.x / res, position.y + sin(uTime / 2), position.z, 1.0);
+    gl_Position = uProjection * uView * uModel * vec4(position.xyz, 1.0);
     fragColor = vec4(color.xyz, 1.0);
     TexCoords = texCoords;
 }
