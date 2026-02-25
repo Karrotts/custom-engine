@@ -46,6 +46,14 @@ void Engine::terminate() {
   glfwTerminate();
 }
 
+uint32_t Engine::createShader(Shader* shader) {
+  return shaderCache.add(shader);
+}
+
+uint32_t Engine::createTexture(Texture* texture) {
+  return textureCache.add(texture);
+}
+
 Window * Engine::getWindow() {
   return window;
 }

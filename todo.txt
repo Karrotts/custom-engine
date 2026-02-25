@@ -1,9 +1,14 @@
-==== TO DO ===
-1. Create rendering pipeline and rework some of the rendering steps
+Rendering Pipeline?
 
-2. Might need to create a material registry which the renderer can use. This would allow you to register
-   materials to be reused by the render then the "RenderableObject" will just contain an ID to the material
-
-3. Rendering pipeline should have a queue of all the renderable objects then group by material ID each frame
-
-4. Transformations should be based on world space instead of nds space, but this is whatever until I learn how to do this.
+1. User Registers Shader with Engine.createShader() returns u_int32 ID
+2. User Registers Texture with Engine.createTexture() returns u_int32 ID
+3. User can create Material which will take in a Shader ID and a Texture ID
+   1. Materials will also have uniforms for the shaders in its use method.
+4. User can create a "Renderable" with a Mesh and a Material
+5. Users can directly add Renderables to the renderer (possibly handled in some other process later) with
+   addRenderable()
+6. In the renderer, each frame, we check the list of renderables and load in the texture and shader and create
+   a new vector for loaded textures and shaders.
+   1. Only load textures and shaders IF they are not in our vector array. Otherwise load the shader and texture and add to vector arrays.
+7. Organize the renderables into a queue ordered by the Texture ID
+8. Render each renderable and apply materials
