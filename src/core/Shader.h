@@ -4,18 +4,22 @@
 #include <string>
 #include <unordered_map>
 
+#include "Window.h"
 #include "glad/glad.h"
 #include "glm/fwd.hpp"
 
 class Shader {
 public:
   unsigned int ID;
+  const char* vertexPath;
+  const char* fragmentPath;
 
   Shader(const char* vertexShader, const char* fragmentShader);
   ~Shader();
 
   void use();
-
+  void load();
+  void update(Window* window);
   void setBool(const std::string& name, bool value);
   void setInt(const std::string& name, int value);
   void setFloat(const std::string& name, float value);

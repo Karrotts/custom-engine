@@ -5,14 +5,24 @@
 #include <sstream>
 
 #include "Logger.h"
+#include "Window.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "glm/gtc/type_ptr.hpp"
 
 
 Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
-    std::string vertexShader = loadFile(vertexShaderPath);
-    std::string fragmentShader = loadFile(fragmentShaderPath);
+    this->vertexPath = vertexShaderPath;
+    this->fragmentPath = fragmentShaderPath;
+}
+
+void Shader::use() {
+    glUseProgram(ID);
+}
+
+void Shader::load() {
+    std::string vertexShader = loadFile(vertexPath);
+    std::string fragmentShader = loadFile(fragmentPath);
 
     int vertex = compile(vertexShader.c_str(), GL_VERTEX_SHADER);
     int fragment = compile(fragmentShader.c_str(), GL_FRAGMENT_SHADER);
@@ -36,22 +46,19 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
     glDeleteShader(fragment);
 }
 
-void Shader::use() {
-    glUseProgram(ID);
-    GLFWwindow* window = glfwGetCurrentContext();
-
+void Shader::update(Window* window) {
     // pass in time as uTime
     float time = glfwGetTime();
     glUniform1f(getUniformLocation("uTime"), time);
 
     // pass in resolution as uResolution
     int width, height;
-    glfwGetWindowSize(window, &width, &height);
+    window->getSize(width, height);
     glUniform2f(getUniformLocation("uResolution"), width, height);
 
     // pass in the mouse position as uMouse
     double mouseX, mouseY;
-    glfwGetCursorPos(window, &mouseX, &mouseY);
+    glfwGetCursorPos(window->getWindow(), &mouseX, &mouseY);
     mouseY = height - mouseY;
     float normX = static_cast<float>(mouseX) / static_cast<float>(width);
     float normY = static_cast<float>(mouseY) / static_cast<float>(height);

@@ -12,8 +12,8 @@ struct Material {
   }
 
   void use() {
-    shader->use();
-    texture->use();
+    // shader->use();
+    // texture->use();
     // todo implement multiple texture support
     this->shader->setInt("uTexture", 0);
   }

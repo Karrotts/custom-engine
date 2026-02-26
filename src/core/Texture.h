@@ -31,7 +31,6 @@ struct Texture {
     this->wrap = textureWrap;
     this->filter = textureFilter;
     this->texturePath = texturePath;
-    load();
   }
 
   void use() {

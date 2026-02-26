@@ -42,10 +42,18 @@ int main() {
   Camera camera(&window);
   camera.transform.setPosition(glm::vec3(0.0f, 0.0f, -3.0f));
 
+
+  shader.load();
+  texture.load();
+
+  shader.use();
+  texture.use();
+
   while (!window.shouldClose()) {
     engine.update();
     engine.render();
 
+    shader.update(&window);
 
     for (auto r: renderables) {
       r->render();
