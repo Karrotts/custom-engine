@@ -6,6 +6,7 @@
 #include "primitives/Primitives.h"
 
 #define STB_IMAGE_IMPLEMENTATION
+#include "editor/EditorCamera.h"
 #include "primitives/Primitives.h"
 #include "primitives/Sphere.h"
 #include "stb/stb_image.h"
@@ -39,8 +40,11 @@ int main() {
 
   std::vector<RenderableObject*> renderables = {&renderable, &renderable2};
 
-  Camera camera(&window);
-  camera.transform.setPosition(glm::vec3(0.0f, 0.0f, -3.0f));
+  // Camera camera(&window);
+  // camera.position = glm::vec3(0.0f, 0.0f, 3.0f);
+
+  EditorCamera camera(&window);
+  camera.position = glm::vec3(0.0f, 0.0f, 3.0f);
 
 
   shader.load();
@@ -57,7 +61,7 @@ int main() {
 
     for (auto r: renderables) {
       r->render();
-      shader.setMat4("uView", camera.transform.getTransformationMatrix());
+      shader.setMat4("uView", camera.getViewMatrix());
       shader.setMat4("uProjection", camera.getProjectionMatrix());
 
       glm::vec3 rotation = r->transform.getRotation();
@@ -67,6 +71,7 @@ int main() {
     }
 
     engine.pollEvents();
+    camera.processKeyboardInput(engine.getDeltaTime());
   }
 
   engine.terminate();

@@ -3,7 +3,7 @@
 
 #include "Material.h"
 #include "Mesh.h"
-#include "../math/Transform.h"
+#include "math/Transform.h"
 
 class RenderableObject {
 public:

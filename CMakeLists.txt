@@ -17,17 +17,19 @@ add_executable(game_engine
         src/core/Shader.h
         src/core/Mesh.h
         src/core/Texture.h
-        src/math/Transform.h
+        src/core/math/Transform.h
         src/core/RenderableObject.cpp
         src/core/RenderableObject.h
         src/core/Material.h
         src/primitives/Square.h
-        src/math/Transform.cpp
+        src/core/math/Transform.cpp
         src/primitives/Primitives.h
         src/core/Camera.cpp
         src/core/Camera.h
         src/primitives/Sphere.h
-        src/util/CacheStore.h
+        src/core/util/CacheStore.h
+        src/editor/EditorCamera.cpp
+        src/editor/EditorCamera.h
 )
 
 include(FetchContent)

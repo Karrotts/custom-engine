@@ -4,7 +4,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Window.h"
-#include "../util/CacheStore.h"
+#include "util/CacheStore.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
