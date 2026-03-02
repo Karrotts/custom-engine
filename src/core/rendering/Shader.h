@@ -40,5 +40,4 @@ private:
   std::string loadFile(const char* path);
 };
 
-
 #endif //GAME_ENGINE_SHADER_H

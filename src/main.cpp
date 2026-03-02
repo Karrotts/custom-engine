@@ -2,7 +2,7 @@
 
 #include "core/Engine.h"
 #include "primitives/Square.h"
-#include "core/Camera.h"
+#include "core/rendering/Camera.h"
 #include "primitives/Primitives.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -29,6 +29,9 @@ int main() {
   Shader shader("assets/shaders/default.vert", "assets/shaders/default.frag");
   Texture texture("assets/textures/tex_DebugUVTiles.png");
 
+  engine.createShader(&shader);
+  engine.createTexture(&texture);
+
   Material mat1(&shader, &texture);
   Material mat2(&shader, &texture);
 
@@ -42,10 +45,6 @@ int main() {
 
   EditorCamera camera(&window);
   camera.position = glm::vec3(0.0f, 0.0f, 3.0f);
-
-
-  shader.load();
-  texture.load();
 
   shader.use();
   texture.use();

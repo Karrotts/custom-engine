@@ -47,10 +47,16 @@ void Engine::terminate() {
 }
 
 uint32_t Engine::createShader(Shader* shader) {
+  // todo: this should eventually do:
+  // 1. check if the shader already exists in the cache store and return that ID instead
+  shader->load();
   return shaderCache.add(shader);
 }
 
 uint32_t Engine::createTexture(Texture* texture) {
+  // todo: this should eventually do:
+  // 1. check if the texture already exists in the cache store and return that ID instead
+  texture->load();
   return textureCache.add(texture);
 }
 

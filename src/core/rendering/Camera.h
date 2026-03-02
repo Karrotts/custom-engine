@@ -1,8 +1,8 @@
 #ifndef GAME_ENGINE_CAMERA_H
 #define GAME_ENGINE_CAMERA_H
 
-#include "Window.h"
-#include "math/Transform.h"
+#include "../Window.h"
+#include "../math/Transform.h"
 
 enum CameraMode {
   ORTHOGRAPHIC,
@@ -42,6 +42,5 @@ class Camera {
   void updateProjectionMatrix();
   void updateCameraVectors();
 };
-
 
 #endif //GAME_ENGINE_CAMERA_H

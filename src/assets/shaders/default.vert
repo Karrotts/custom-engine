@@ -10,6 +10,7 @@ out vec2 TexCoords;
 uniform float uTime;
 uniform vec2 uResolution;
 uniform vec2 uMouse;
+
 uniform mat4 uModel;
 uniform mat4 uProjection;
 uniform mat4 uView;

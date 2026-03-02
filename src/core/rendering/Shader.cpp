@@ -10,7 +10,6 @@
 #include "GLFW/glfw3.h"
 #include "glm/gtc/type_ptr.hpp"
 
-
 Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
     this->vertexPath = vertexShaderPath;
     this->fragmentPath = fragmentShaderPath;
@@ -158,7 +157,6 @@ std::string Shader::loadFile(const char* path)
 
     return buffer.str();
 }
-
 
 Shader::~Shader() {
     Logger::debug("Unloaded Shader: " + std::to_string(ID));

@@ -24,8 +24,8 @@ add_executable(game_engine
         src/primitives/Square.h
         src/core/math/Transform.cpp
         src/primitives/Primitives.h
-        src/core/Camera.cpp
-        src/core/Camera.h
+        src/core/rendering/Camera.cpp
+        src/core/rendering/Camera.h
         src/primitives/Sphere.h
         src/core/util/CacheStore.h
         src/editor/EditorCamera.cpp

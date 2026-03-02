@@ -1,7 +1,7 @@
 #ifndef GAME_ENGINE_EDITORCAMERA_H
 #define GAME_ENGINE_EDITORCAMERA_H
 
-#include "../core/Camera.h"
+#include "../core/rendering/Camera.h"
 
 class EditorCamera : public Camera {
   public:
