@@ -1,6 +1,6 @@
 #ifndef GAME_ENGINE_SQUARE_H
 #define GAME_ENGINE_SQUARE_H
-#include "../core/RenderableObject.h"
+#include "../core/rendering/RenderableObject.h"
 
 struct Square {
   Shader shader;

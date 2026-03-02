@@ -1,7 +1,7 @@
 #ifndef GAME_ENGINE_PRIMITIVES_H
 #define GAME_ENGINE_PRIMITIVES_H
 
-#include "../core/Mesh.h"
+#include "../core/rendering/Mesh.h"
 
 inline Mesh createPlane() {
   return Mesh({

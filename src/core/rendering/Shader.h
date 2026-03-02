@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "Window.h"
+#include "../Window.h"
 #include "glad/glad.h"
 #include "glm/fwd.hpp"
 

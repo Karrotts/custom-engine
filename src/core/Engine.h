@@ -1,8 +1,8 @@
 #ifndef GAME_ENGINE_ENGINE_H
 #define GAME_ENGINE_ENGINE_H
 
-#include "Shader.h"
-#include "Texture.h"
+#include "rendering/Shader.h"
+#include "rendering/Texture.h"
 #include "Window.h"
 #include "util/CacheStore.h"
 #include "glad/glad.h"

@@ -1,5 +1,10 @@
 #include "EditorCamera.h"
 
+void EditorCamera::process(double deltaTime) {
+  processKeyboardInput(deltaTime);
+  processMouseInput(deltaTime);
+}
+
 void EditorCamera::processKeyboardInput(double deltaTime) {
   if (glfwGetKey(window->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
     position += movementSpeed * front * (float)deltaTime;
@@ -11,7 +16,7 @@ void EditorCamera::processKeyboardInput(double deltaTime) {
     position += glm::normalize(glm::cross(front, up)) * movementSpeed * (float)deltaTime;
 }
 
-void EditorCamera::processMouseInput() {
+void EditorCamera::processMouseInput(double deltaTime) {
   if (glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
     glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -28,8 +33,8 @@ void EditorCamera::processMouseInput() {
     lastMos.x = mosPos.x;
     lastMos.y = mosPos.y;
 
-    xoffset *= mouseSensitivity;
-    yoffset *= mouseSensitivity;
+    xoffset *= mouseSensitivity * deltaTime;
+    yoffset *= mouseSensitivity * deltaTime;
 
     yaw   += xoffset;
     pitch += yoffset;

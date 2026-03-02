@@ -9,18 +9,18 @@ add_executable(game_engine
         includes/glad/glad.c
         src/core/engine.cpp
         src/core/engine.h
-        src/core/Logger.h
+        src/core/util/Logger.h
         src/core/Window.cpp
         src/core/Window.h
-        src/core/Vertex.h
-        src/core/Shader.cpp
-        src/core/Shader.h
-        src/core/Mesh.h
-        src/core/Texture.h
+        src/core/rendering/Vertex.h
+        src/core/rendering/Shader.cpp
+        src/core/rendering/Shader.h
+        src/core/rendering/Mesh.h
+        src/core/rendering/Texture.h
         src/core/math/Transform.h
-        src/core/RenderableObject.cpp
-        src/core/RenderableObject.h
-        src/core/Material.h
+        src/core/rendering/RenderableObject.cpp
+        src/core/rendering/RenderableObject.h
+        src/core/rendering/Material.h
         src/primitives/Square.h
         src/core/math/Transform.cpp
         src/primitives/Primitives.h

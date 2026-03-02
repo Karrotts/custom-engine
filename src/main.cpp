@@ -68,8 +68,7 @@ int main() {
     }
 
     engine.pollEvents();
-    camera.processKeyboardInput(engine.getDeltaTime());
-    camera.processMouseInput();
+    camera.process(engine.getDeltaTime());
   }
 
   engine.terminate();

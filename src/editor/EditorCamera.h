@@ -10,12 +10,14 @@ class EditorCamera : public Camera {
   float zoom;
 
   EditorCamera(Window* window, CameraMode mode = PERSPECTIVE, float near = 0.1f, float far = 100.0f, float fov = 45.0f)
-    : Camera(window, mode, near, far, fov), movementSpeed(5.0f), mouseSensitivity(0.1), zoom(0) {
+    : Camera(window, mode, near, far, fov), movementSpeed(5.0f), mouseSensitivity(5.0), zoom(0) {
   }
 
+  void process(double deltaTime);
+
+private:
   void processKeyboardInput(double deltaTime);
-  void processMouseInput();
-  void processMouseScrollInput();
+  void processMouseInput(double deltaTime);
 
   private:
   glm::vec2 lastMos;

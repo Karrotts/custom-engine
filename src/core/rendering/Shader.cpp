@@ -4,8 +4,8 @@
 #include <fstream>
 #include <sstream>
 
-#include "Logger.h"
-#include "Window.h"
+#include "../util/Logger.h"
+#include "../Window.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "glm/gtc/type_ptr.hpp"

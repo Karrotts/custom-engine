@@ -4,7 +4,7 @@
 #include <ostream>
 #include <sstream>
 
-#include "Logger.h"
+#include "util/Logger.h"
 
 void printGraphicsCardInfo() {
   const GLubyte* vendor = glGetString(GL_VENDOR);

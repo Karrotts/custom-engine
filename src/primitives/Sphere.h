@@ -2,7 +2,7 @@
 #define GAME_ENGINE_SPHERE_H
 
 #include <cmath>
-#include "../core/Mesh.h"
+#include "../core/rendering/Mesh.h"
 #include "glm/ext/scalar_constants.hpp"
 
 Mesh createSphere(float radius, int segments = 16) {

@@ -2,7 +2,7 @@
 #define GAME_ENGINE_TEXTURE_H
 
 #include "glad/glad.h"
-#include "Logger.h"
+#include "../util/Logger.h"
 #include "stb/stb_image.h"
 
 enum TextureWrap {
