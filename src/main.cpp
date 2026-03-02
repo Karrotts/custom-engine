@@ -40,9 +40,6 @@ int main() {
 
   std::vector<RenderableObject*> renderables = {&renderable, &renderable2};
 
-  // Camera camera(&window);
-  // camera.position = glm::vec3(0.0f, 0.0f, 3.0f);
-
   EditorCamera camera(&window);
   camera.position = glm::vec3(0.0f, 0.0f, 3.0f);
 
@@ -72,6 +69,7 @@ int main() {
 
     engine.pollEvents();
     camera.processKeyboardInput(engine.getDeltaTime());
+    camera.processMouseInput();
   }
 
   engine.terminate();

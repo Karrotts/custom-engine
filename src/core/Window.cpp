@@ -23,6 +23,13 @@ void windowResizeCallback(GLFWwindow* window, int width, int height) {
   glViewport(0, 0, width, height);
 }
 
+void windowMousePositionCallback(GLFWwindow* window, double x, double y) {
+  Window* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+  if (self != nullptr) {
+    self->setMousePosition(x, y);
+  }
+}
+
 Window::Window(int width, int height, std::string title, bool fullscreen) {
   if (!glfwInit()) {
     std::cout << "Failed to initialize GLFW." << std::endl;
@@ -35,6 +42,7 @@ Window::Window(int width, int height, std::string title, bool fullscreen) {
   currentFrame = 0;
   updateFrame = 0;
   fpsSum = 0;
+  mousePosition = glm::vec2(static_cast<float>(width) / 2.0f,  static_cast<float>(height) / 2.0f);
 
   if (window == nullptr) {
     std::cout << "Failed to create GLFW window" << std::endl;
@@ -50,6 +58,8 @@ Window::Window(int width, int height, std::string title, bool fullscreen) {
 
   glViewport(0, 0, width, height);
   glfwSetFramebufferSizeCallback(window, windowResizeCallback);
+  glfwSetWindowUserPointer(window, this);
+  glfwSetCursorPosCallback(window, windowMousePositionCallback);
 }
 
 void Window::setTitle(const std::string &title, bool overrideBaseTitle) {
@@ -127,6 +137,14 @@ float Window::getResolution() {
   int width, height;
   getSize(width, height);
   return static_cast<float>(width) / static_cast<float>(height);
+}
+
+glm::vec2 Window::getMousePosition() {
+  return mousePosition;
+}
+
+void Window::setMousePosition(double x, double y) {
+  mousePosition = glm::vec2(x, y);
 }
 
 void Window::updateFPS() {

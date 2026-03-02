@@ -5,6 +5,7 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "glm/vec2.hpp"
 
 class Window {
 public:
@@ -14,15 +15,14 @@ public:
   void getSize(int& width, int& height);
   void setPosition(int x, int y);
   void setFullscreen(bool fullscreen);
-  void setMonitor();
-  int getMonitors();
-  int getMonitor();
   void displayFPS(bool display, int updateFrame = 5);
   void tick(double deltaTime);
   bool shouldClose();
   GLFWwindow* getWindow();
   void printDisplayInfo() const;
   float getResolution();
+  glm::vec2 getMousePosition();
+  void setMousePosition(double x, double y);
 private:
   GLFWwindow* window;
   GLFWmonitor* monitor;
@@ -33,6 +33,7 @@ private:
   int currentFrame;
   int updateFrame;
   void updateFPS();
+  glm::vec2 mousePosition;
 };
 
 
