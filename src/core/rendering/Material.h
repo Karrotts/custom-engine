@@ -5,6 +5,9 @@
 #include "Texture.h"
 
 struct Material {
+  std::uint32_t shaderId;
+  std::uint32_t albedoTextureId;
+
   Shader* shader;
   Texture* texture;
 
@@ -13,8 +16,13 @@ struct Material {
     this->texture = texture;
   }
 
+  Material(std::uint32_t shaderId, std::uint32_t albedoTextureId) {
+    this->shaderId = shaderId;
+    this->albedoTextureId = albedoTextureId;
+  }
+
   void use() {
-    this->shader->setInt("uTexture", 0);
+    this->shader->setInt("uAlbedoTexture", 0);
   }
 };
 

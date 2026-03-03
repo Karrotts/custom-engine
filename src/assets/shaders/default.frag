@@ -5,8 +5,8 @@ in vec2 TexCoords;
 
 out vec4 FragColor;
 
-uniform sampler2D uTexture;
+uniform sampler2D uAlbedoTexture;
 
 void main() {
-    FragColor = texture(uTexture, vec2(TexCoords.x, TexCoords.y * -1));
+    FragColor = texture(uAlbedoTexture, vec2(TexCoords.x, TexCoords.y * -1));
 }

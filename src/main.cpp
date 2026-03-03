@@ -23,7 +23,7 @@ int main() {
   }
 
   Mesh cube = createCube();
-  Mesh sphere = createSphere(0.5, 64);
+  Mesh sphere = createSphere(0.5, 16);
   Mesh sphere2 = createSphere(0.5, 32);
 
   Shader shader("assets/shaders/default.vert", "assets/shaders/default.frag");
@@ -33,21 +33,19 @@ int main() {
   engine.createTexture(&texture);
 
   Material mat1(&shader, &texture);
-  Material mat2(&shader, &texture);
+  std::vector<RenderableObject> renderables = {};
 
-  RenderableObject renderable(&sphere, &mat1);
-  renderable.transform.setPosition(glm::vec3(-1.0f, 0.0f, 0.0f));
-
-  RenderableObject renderable2(&sphere2, &mat2);
-  renderable2.transform.setPosition(glm::vec3(1.0f, 0.0f, 0.0f));
-
-  std::vector<RenderableObject*> renderables = {&renderable, &renderable2};
+  for (int i = 0; i < 4000; i++) {
+    RenderableObject renderable(&sphere, &mat1);
+    int offset = i / 50;
+    renderable.transform.setPosition(glm::vec3(i - (offset * 50), 0.0f, offset));
+    renderables.push_back(renderable);
+  }
 
   EditorCamera camera(&window);
   camera.position = glm::vec3(0.0f, 0.0f, 3.0f);
 
   shader.use();
-  texture.use();
 
   while (!window.shouldClose()) {
     engine.update();
@@ -55,15 +53,17 @@ int main() {
 
     shader.update(&window);
 
-    for (auto r: renderables) {
-      r->render();
+    for (auto& r: renderables) {
+      glm::vec3 rotation = r.transform.getRotation();
+      rotation.y += glm::radians(50.0f * engine.getDeltaTime());
+      rotation.z += glm::radians(50.0f * engine.getDeltaTime());
+      r.transform.setRotation(rotation);
+
+      r.material->texture->use();
       shader.setMat4("uView", camera.getViewMatrix());
       shader.setMat4("uProjection", camera.getProjectionMatrix());
 
-      glm::vec3 rotation = r->transform.getRotation();
-      rotation.y += glm::radians(50.0f * engine.getDeltaTime());
-      rotation.z += glm::radians(50.0f * engine.getDeltaTime());
-      r->transform.setRotation(rotation);
+      r.render();
     }
 
     engine.pollEvents();

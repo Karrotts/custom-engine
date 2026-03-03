@@ -18,4 +18,4 @@ struct CacheStore {
   }
 };
 
-#endif
+#endif //GAME_ENGINE_CACHESTORE_H
