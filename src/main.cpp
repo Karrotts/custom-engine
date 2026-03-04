@@ -6,6 +6,7 @@
 #include "primitives/Primitives.h"
 
 #define STB_IMAGE_IMPLEMENTATION
+#include "core/util/ObjLoader.h"
 #include "editor/EditorCamera.h"
 #include "primitives/Primitives.h"
 #include "primitives/Sphere.h"
@@ -25,6 +26,8 @@ int main() {
   Mesh cube = createCube();
   Mesh sphere = createSphere(0.5, 16);
   Mesh sphere2 = createSphere(0.5, 32);
+
+  ObjLoader cubeObj("assets/meshes/cube.obj");
 
   Shader shader("assets/shaders/default.vert", "assets/shaders/default.frag");
   Texture texture("assets/textures/tex_DebugUVTiles.png");

@@ -30,6 +30,7 @@ add_executable(game_engine
         src/core/util/CacheStore.h
         src/editor/EditorCamera.cpp
         src/editor/EditorCamera.h
+        src/core/util/ObjLoader.h
 )
 
 include(FetchContent)
