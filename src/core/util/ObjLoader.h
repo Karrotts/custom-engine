@@ -73,8 +73,40 @@ struct ObjLoader {
     file.close();
   }
 
-  void toMesh() {
+  Mesh toMesh() const {
+    std::vector<Vertex> cVertices;
+    std::vector<unsigned int> cIndices;
 
+    for (auto face : faces) {
+      if (face.data.size() > 4) {
+        Logger::warn("N-Gon detected, face contains ["+ std::to_string(face.data.size()) +"] vertices. Attempting to triangulate as convex shape...");
+      }
+      for (int i = 0; i < face.data.size() - 2; i++) {
+        unsigned int size = cVertices.size();
+        cVertices.emplace_back(Vertex(
+          vertices[face.data[0].vertex],
+          normals[face.data[0].normal],
+          uvs[face.data[0].uv]
+        ));
+
+        cVertices.emplace_back(Vertex(
+          vertices[face.data[i + 1].vertex],
+          normals[face.data[i + 1].normal],
+          uvs[face.data[i + 1].uv]
+        ));
+
+        cVertices.emplace_back(Vertex(
+          vertices[face.data[i + 2].vertex],
+          normals[face.data[i + 2].normal],
+          uvs[face.data[i + 2].uv]
+        ));
+
+        cIndices.emplace_back(size);
+        cIndices.emplace_back(size+1);
+        cIndices.emplace_back(size+2);
+      }
+    }
+    return {cVertices, cIndices};
   }
 };
 
