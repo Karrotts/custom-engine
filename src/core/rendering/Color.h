@@ -27,5 +27,9 @@ struct Color {
 };
 
 inline Color WHITE = Color::fromLinear(glm::vec4(1,1,1,1));
+inline Color BLACK = Color::fromLinear(glm::vec4(0,0,0,1));
+inline Color RED   = Color::fromLinear(glm::vec4(1,0,0,1));
+inline Color GREEN = Color::fromLinear(glm::vec4(0,1,0,1));
+inline Color BLUE  = Color::fromLinear(glm::vec4(0,0,1,1));
 
 #endif //GAME_ENGINE_COLOR_H
