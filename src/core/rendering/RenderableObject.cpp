@@ -8,9 +8,8 @@ RenderableObject::RenderableObject(Mesh *mesh, Material *material) {
   this->transform = Transform();
 }
 
-void RenderableObject::render() {
-  material->use();
-  material->shader->setMat4("uModel", transform.getTransformationMatrix());
-
+void RenderableObject::render(Shader* shader) {
+  material->use(shader);
+  shader->setMat4("uModel", transform.getTransformationMatrix());
   mesh->draw();
 }

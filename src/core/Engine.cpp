@@ -2,6 +2,7 @@
 #include "util/Logger.h"
 #include "Window.h"
 #include "glm/vec4.hpp"
+#include "rendering/Color.h"
 
 // auto detect Nvidia or AMD GPU
 extern "C" {

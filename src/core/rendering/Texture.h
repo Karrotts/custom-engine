@@ -21,7 +21,7 @@ enum TextureFilter {
 };
 
 struct Texture {
-  int width, height, nrChannels;
+  int width, height, nrChannels, textureSlot;
   unsigned int texture;
   std::string texturePath;
   TextureWrap wrap = REPEAT;
@@ -31,10 +31,11 @@ struct Texture {
     this->wrap = textureWrap;
     this->filter = textureFilter;
     this->texturePath = texturePath;
+    this->textureSlot = 0;
   }
 
   void use() {
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE0 + textureSlot);
     glBindTexture(GL_TEXTURE_2D, texture);
   }
 

@@ -1,6 +1,8 @@
 #ifndef GAME_ENGINE_SQUARE_H
 #define GAME_ENGINE_SQUARE_H
+
 #include "../core/rendering/RenderableObject.h"
+#include "../core/rendering/Color.h"
 
 struct Square {
   Shader shader;
@@ -22,7 +24,7 @@ struct Square {
       }
     ),
     texture("assets/textures/tex_DebugUVTiles.png"),
-    material(&shader, &texture),
+    material(),
     renderable(&mesh, &material)
   { }
 };

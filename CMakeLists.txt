@@ -31,6 +31,9 @@ add_executable(game_engine
         src/editor/EditorCamera.cpp
         src/editor/EditorCamera.h
         src/core/util/ObjLoader.h
+        src/core/rendering/Color.h
+        src/core/rendering/Renderer.cpp
+        src/core/rendering/Renderer.h
 )
 
 include(FetchContent)

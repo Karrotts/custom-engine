@@ -26,7 +26,7 @@ int main() {
   Mesh sphere = createSphere(0.5, 16);
   Mesh sphere2 = createSphere(0.5, 32);
 
-  ObjLoader cubeObj("assets/meshes/suzanne.obj");
+  ObjLoader cubeObj("assets/meshes/cube.obj");
   Mesh cube = cubeObj.toMesh();
 
   Shader shader("assets/shaders/default.vert", "assets/shaders/default.frag");
@@ -35,19 +35,13 @@ int main() {
   engine.createShader(&shader);
   engine.createTexture(&texture);
 
-  Material mat1(&shader, &texture);
-  std::vector<RenderableObject> renderables = {};
+  Material mat1;
+  mat1.albedoTexture = &texture;
+  mat1.albedoColor = Color::fromRGBA(glm::vec4(255.0f, 0.0f, 0.0f, 1.0f));
 
-  // for (int i = 0; i < 4000; i++) {
-  //   RenderableObject renderable(&sphere, &mat1);
-  //   int offset = i / 50;
-  //   renderable.transform.setPosition(glm::vec3(i - (offset * 50), 0.0f, offset));
-  //   renderables.push_back(renderable);
-  // }
+  RenderableObject object(&cube, &mat1);
 
-  renderables.push_back({RenderableObject(&cube, &mat1)});
-
-  EditorCamera camera(&window);
+  EditorCamera camera(&window, PERSPECTIVE, 0.1, 1000);
   camera.position = glm::vec3(0.0f, 0.0f, 3.0f);
 
   shader.use();
@@ -57,19 +51,9 @@ int main() {
     engine.render();
 
     shader.update(&window);
-
-    for (auto& r: renderables) {
-      glm::vec3 rotation = r.transform.getRotation();
-      rotation.y += glm::radians(50.0f * engine.getDeltaTime());
-      rotation.z += glm::radians(50.0f * engine.getDeltaTime());
-      r.transform.setRotation(rotation);
-
-      r.material->texture->use();
-      shader.setMat4("uView", camera.getViewMatrix());
-      shader.setMat4("uProjection", camera.getProjectionMatrix());
-
-      r.render();
-    }
+    object.render(&shader);
+    shader.setMat4("uView", camera.getViewMatrix());
+    shader.setMat4("uProjection", camera.getProjectionMatrix());
 
     engine.pollEvents();
     camera.process(engine.getDeltaTime());

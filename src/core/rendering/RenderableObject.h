@@ -11,9 +11,7 @@ public:
   Mesh* mesh = nullptr;
   Material* material = nullptr;
   RenderableObject(Mesh* mesh, Material* material);
-
-  // garbage, replace with an actual render you loser!
-  void render();
+  void render(Shader* shader);
 };
 
 

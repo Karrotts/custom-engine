@@ -29,6 +29,9 @@ public:
   void setVec2i(const std::string& name, int x, int y);
   void setVec3i(const std::string& name, int x, int y, int z);
   void setVec4i(const std::string& name, int x, int y, int z, int a);
+  void setVec2(const std::string& name, glm::vec2 value);
+  void setVec3(const std::string& name, glm::vec3 value);
+  void setVec4(const std::string& name, glm::vec4 value);
   void setMat2(const std::string& name, const glm::mat2& mat);
   void setMat3(const std::string& name, const glm::mat3& mat);
   void setMat4(const std::string& name, const glm::mat4& matrix);
