@@ -1,6 +1,8 @@
 #ifndef GAME_ENGINE_OBJLOADER_H
 #define GAME_ENGINE_OBJLOADER_H
+
 #include <fstream>
+#include <memory>
 #include <sstream>
 #include <string>
 
@@ -19,10 +21,11 @@ struct ObjLoader {
   std::vector<glm::vec3> vertices;
   std::vector<glm::vec3> normals;
   std::vector<glm::vec2> uvs;
-  std::vector<FaceData> faces;
-  std::string name;
+  std::map<std::string, std::vector<FaceData>> materialFaces;
 
   ObjLoader(const char* path) {
+    std::string materialName = "engine_default";
+
     std::ifstream file(path);
     std::string line;
     while (std::getline(file, line))
@@ -30,8 +33,8 @@ struct ObjLoader {
       std::istringstream ss(line);
       std::string type;
       ss >> type;
-      if (type == "o") {
-        ss >> name;
+      if (type == "usemtl") {
+        ss >> materialName;
       }
       if (type == "v") {
         float x, y, z;
@@ -67,20 +70,33 @@ struct ObjLoader {
           }
           faceData.data.emplace_back(faceIndexData);
         }
-        faces.emplace_back(faceData);
+        materialFaces[materialName].emplace_back(faceData);
       }
     };
     file.close();
   }
 
-  Mesh toMesh() const {
+  std::map<std::string, std::unique_ptr<Mesh>> getMeshes() const {
+    std::map<std::string, std::unique_ptr<Mesh>> meshes;
+    for (const auto& mat : materialFaces) {
+      meshes.insert({mat.first, toMesh(mat.second)});
+    }
+    return meshes;
+  }
+
+private:
+  std::unique_ptr<Mesh> toMesh(std::vector<FaceData> faces) const {
     std::vector<Vertex> cVertices;
     std::vector<unsigned int> cIndices;
 
-    for (auto face : faces) {
+    for (const auto& face : faces) {
       if (face.data.size() > 4) {
         Logger::warn("N-Gon detected, face contains ["+ std::to_string(face.data.size()) +"] vertices. Attempting to triangulate as convex shape...");
       }
+
+      // face is too small, skip them
+      if (face.data.size() < 3) continue;
+
       for (int i = 0; i < face.data.size() - 2; i++) {
         unsigned int size = cVertices.size();
         cVertices.emplace_back(Vertex(
@@ -106,7 +122,7 @@ struct ObjLoader {
         cIndices.emplace_back(size+2);
       }
     }
-    return {cVertices, cIndices};
+    return std::make_unique<Mesh>(cVertices, cIndices);
   }
 };
 

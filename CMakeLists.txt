@@ -18,10 +18,7 @@ add_executable(game_engine
         src/core/rendering/Mesh.h
         src/core/rendering/Texture.h
         src/core/math/Transform.h
-        src/core/rendering/RenderableObject.cpp
-        src/core/rendering/RenderableObject.h
         src/core/rendering/Material.h
-        src/primitives/Square.h
         src/core/math/Transform.cpp
         src/primitives/Primitives.h
         src/core/rendering/Camera.cpp
@@ -34,6 +31,8 @@ add_executable(game_engine
         src/core/rendering/Color.h
         src/core/rendering/Renderer.cpp
         src/core/rendering/Renderer.h
+        src/core/rendering/Model.h
+        src/core/util/MtlLoader.h
 )
 
 include(FetchContent)

@@ -7,11 +7,19 @@
 
 struct Material {
   Texture* albedoTexture = nullptr;
+  Shader* shader = nullptr;
   Color albedoColor;
 
-  Material() : albedoColor(WHITE) {}
+  Material(const Material&) = delete;
+  Material& operator=(const Material&) = delete;
 
-  void use(Shader* shader) {
+  Material(Material&&) = default;
+  Material& operator=(Material&&) = default;
+
+
+  Material(Shader* shader) : albedoColor(WHITE), shader(shader) {}
+
+  void use() {
     shader->setVec4("uAlbedoColor", albedoColor.linear);
     if (albedoTexture) {
       albedoTexture->textureSlot = 0;

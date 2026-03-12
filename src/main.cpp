@@ -1,16 +1,18 @@
 #include <iostream>
 
 #include "core/Engine.h"
-#include "primitives/Square.h"
-#include "core/rendering/Camera.h"
-#include "primitives/Primitives.h"
 
 #define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
 #include "core/util/ObjLoader.h"
 #include "editor/EditorCamera.h"
 #include "primitives/Primitives.h"
 #include "primitives/Sphere.h"
-#include "stb/stb_image.h"
+#include "core/rendering/Material.h"
+#include "core/rendering/Camera.h"
+#include "core/rendering/Model.h"
+#include "primitives/Primitives.h"
+#include "core/util/MtlLoader.h"
 
 
 int main() {
@@ -23,23 +25,22 @@ int main() {
     return -1;
   }
 
-  Mesh sphere = createSphere(0.5, 16);
-  Mesh sphere2 = createSphere(0.5, 32);
-
-  ObjLoader cubeObj("assets/meshes/cube.obj");
-  Mesh cube = cubeObj.toMesh();
-
   Shader shader("assets/shaders/default.vert", "assets/shaders/default.frag");
   Texture texture("assets/textures/tex_DebugUVTiles.png");
 
   engine.createShader(&shader);
   engine.createTexture(&texture);
 
-  Material mat1;
+  ObjLoader cubeObj("assets/meshes/complex/dog.obj");
+  std::map<std::string, std::unique_ptr<Mesh>> meshes = cubeObj.getMeshes();
+  MtlLoader mtlLoader("assets/meshes/complex/dog.mtl");
+  std::map<std::string, std::unique_ptr<Material>> materials = mtlLoader.getMaterials(&shader);
+
+  Material mat1(&shader);
   mat1.albedoTexture = &texture;
   mat1.albedoColor = Color::fromRGBA(glm::vec4(255.0f, 0.0f, 0.0f, 1.0f));
 
-  RenderableObject object(&cube, &mat1);
+  Model m(std::move(meshes), std::move(materials), &shader);
 
   EditorCamera camera(&window, PERSPECTIVE, 0.1, 1000);
   camera.position = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -51,7 +52,7 @@ int main() {
     engine.render();
 
     shader.update(&window);
-    object.render(&shader);
+    m.render();
     shader.setMat4("uView", camera.getViewMatrix());
     shader.setMat4("uProjection", camera.getProjectionMatrix());
 
