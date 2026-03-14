@@ -2,8 +2,8 @@
 #include "glm/ext/matrix_clip_space.hpp"
 #include "glm/ext/matrix_transform.hpp"
 
-Camera::Camera(Window *window, CameraMode mode, float near, float far, float fov) {
-  this->window = window;
+Camera::Camera(CameraMode mode, float near, float far, float fov) {
+  this->window = WindowManager::getInstance().getActiveWindow();
   this->mode = mode;
   this->near = near;
   this->far = far;
@@ -33,7 +33,7 @@ glm::mat4 Camera::getViewMatrix() {
 
 void Camera::updateProjectionMatrix() {
   int width, height;
-  window->getSize(width, height);
+  WindowManager::getInstance().getActiveWindow()->getSize(width, height);
   if (mode == PERSPECTIVE) {
     this->projection = glm::perspective(glm::radians(this->fov), window->getResolution(), near, far);
   } else {

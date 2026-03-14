@@ -19,7 +19,7 @@ class Camera {
   float yaw;
   float pitch;
 
-  explicit Camera(Window* window, CameraMode mode = PERSPECTIVE, float near = 0.1f, float far = 100.0f, float fov = 45.0f);
+  explicit Camera(CameraMode mode = PERSPECTIVE, float near = 0.1f, float far = 100.0f, float fov = 45.0f);
 
   void setConfigDefault(
     glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
@@ -33,7 +33,6 @@ class Camera {
   glm::mat4 getViewMatrix();
 
   protected:
-  Window* window;
   CameraMode mode;
   float near;
   float far;
@@ -41,6 +40,7 @@ class Camera {
   glm::mat4 projection;
   void updateProjectionMatrix();
   void updateCameraVectors();
+  Window* window;
 };
 
 #endif //GAME_ENGINE_CAMERA_H

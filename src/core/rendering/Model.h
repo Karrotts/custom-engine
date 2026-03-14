@@ -6,25 +6,26 @@
 #include "Material.h"
 #include "Mesh.h"
 #include "../math/Transform.h"
+#include "../util/MtlLoader.h"
 
 struct Model {
   std::vector<std::unique_ptr<Mesh>> meshes;
   std::vector<std::unique_ptr<Material>> materials;
-  Material defaultMaterial;
+  Material* defaultMaterial;
   Transform localTransform = Transform();
 
-  Model(std::unique_ptr<Mesh> mesh, Shader* defaultShader) : defaultMaterial(defaultShader) {
+  Model(std::unique_ptr<Mesh> mesh, Material* defaultMaterial) : defaultMaterial(defaultMaterial) {
     meshes.push_back(std::move(mesh));
   }
 
-  Model(std::vector<std::unique_ptr<Mesh>> meshes, Shader* defaultShader) : defaultMaterial(defaultShader) {
+  Model(std::vector<std::unique_ptr<Mesh>> meshes, Material* defaultMaterial) : defaultMaterial(defaultMaterial) {
     meshes.reserve(meshes.size());
     for (auto& mesh : meshes) {
       meshes.push_back(std::move(mesh));
     }
   }
 
-  Model(std::unique_ptr<Mesh> mesh, std::unique_ptr<Material> material, Shader* defaultShader) : defaultMaterial(defaultShader) {
+  Model(std::unique_ptr<Mesh> mesh, std::unique_ptr<Material> material, Material* defaultMaterial) : defaultMaterial(defaultMaterial) {
     meshes.push_back(std::move(mesh));
     materials.push_back(std::move(material));
   }
@@ -32,7 +33,7 @@ struct Model {
   Model(
     std::map<std::string, std::unique_ptr<Mesh>> meshMap,
     std::map<std::string, std::unique_ptr<Material>> materialMap,
-    Shader* defaultShader) : defaultMaterial(defaultShader) {
+    Material* defaultMaterial) : defaultMaterial(defaultMaterial) {
     meshes.reserve(meshMap.size());
     materials.reserve(materialMap.size());
     for (auto& mesh : meshMap) {
@@ -45,14 +46,20 @@ struct Model {
     }
   }
 
+  static Model fromFile(const std::string &objFilePath, const std::string &materialFilePath, Material* defaultMaterial) {
+    std::map<std::string, std::unique_ptr<Mesh>> meshMap = ObjLoader(objFilePath.c_str()).getMeshes();
+    std::map<std::string, std::unique_ptr<Material>> materialMap = MtlLoader(materialFilePath.c_str()).getMaterials(defaultMaterial->shader);
+    return { std::move(meshMap), std::move(materialMap), defaultMaterial };
+  }
+
   void render() {
     for (auto& mesh : meshes) {
       if (mesh->materialIndex >= 0 && mesh->materialIndex < materials.size()) {
         materials[mesh->materialIndex]->use();
         materials[mesh->materialIndex]->shader->setMat4("uModel", localTransform.getTransformationMatrix());
       } else {
-        defaultMaterial.use();
-        defaultMaterial.shader->setMat4("uModel", localTransform.getTransformationMatrix());
+        defaultMaterial->use();
+        defaultMaterial->shader->setMat4("uModel", localTransform.getTransformationMatrix());
       }
       mesh->draw();
     }

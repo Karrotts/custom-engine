@@ -11,12 +11,13 @@ extern "C" {
 }
 
 Engine::Engine() {
-  window = nullptr;
   lastFrame = 0;
 }
 
-bool Engine::initialize(Window *window) {
-  this->window = window;
+bool Engine::initialize(int width, int height, std::string title, bool fullscreen) {
+  WindowManager::getInstance().setActiveWindow(
+    std::make_unique<Window>(width, height, title, fullscreen)
+  );
 
   glfwInit();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OPENGL_MAJOR_VERSION);
@@ -28,7 +29,7 @@ bool Engine::initialize(Window *window) {
 
   glEnable(GL_DEPTH_TEST); // todo move this to camera class
 
-  window->printDisplayInfo();
+  WindowManager::getInstance().getActiveWindow()->printDisplayInfo();
   lastFrame = glfwGetTime();
 
   return true;
@@ -40,7 +41,7 @@ double Engine::getDeltaTime() {
 
 void Engine::update() {
   this->updateDeltaTime();
-  window->tick(deltaTime);
+  WindowManager::getInstance().getActiveWindow()->tick(deltaTime);
 }
 
 void Engine::terminate() {
@@ -61,8 +62,8 @@ uint32_t Engine::createTexture(Texture* texture) {
   return textureCache.add(texture);
 }
 
-Window * Engine::getWindow() {
-  return window;
+bool Engine::shouldClose() {
+  return WindowManager::getInstance().getActiveWindow()->shouldClose();
 }
 
 Engine::~Engine() {
@@ -82,6 +83,6 @@ void Engine::render() {
 }
 
 void Engine::pollEvents() {
-  glfwSwapBuffers(window->getWindow());
+  glfwSwapBuffers(WindowManager::getInstance().getActiveWindow()->getWindow());
   glfwPollEvents();
 }

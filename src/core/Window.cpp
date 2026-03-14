@@ -147,8 +147,29 @@ void Window::setMousePosition(double x, double y) {
   mousePosition = glm::vec2(x, y);
 }
 
+Window::~Window() {
+  Logger::info("Destroying Window");
+}
+
 void Window::updateFPS() {
   std::stringstream ss;
   ss << titleBase << " - FPS:" << fpsSum / updateFrame;
   setTitle(ss.str(), false);
+}
+
+WindowManager &WindowManager::getInstance() {
+  static WindowManager windowManager;
+  return windowManager;
+}
+
+void WindowManager::setActiveWindow(std::unique_ptr<Window> window) {
+  this->activeWindow = std::move(window);
+}
+
+WindowManager::~WindowManager() {
+  Logger::info("Destroying WindowManager");
+}
+
+Window* WindowManager::getActiveWindow() {
+  return this->activeWindow.get();
 }

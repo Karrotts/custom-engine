@@ -1,6 +1,7 @@
 #ifndef GAME_ENGINE_WINDOW_H
 #define GAME_ENGINE_WINDOW_H
 
+#include <memory>
 #include <string>
 
 #include "glad/glad.h"
@@ -9,6 +10,12 @@
 
 class Window {
 public:
+  Window(const Window&) = delete;
+  Window& operator=(const Window&) = delete;
+
+  Window(Window&&) = default;
+  Window& operator=(Window&&) = default;
+
   Window(int width, int height, std::string title, bool fullscreen = false);
   void setTitle(const std::string &title, bool overrideBaseTitle = true);
   void setSize(int width, int height);
@@ -23,6 +30,7 @@ public:
   float getResolution();
   glm::vec2 getMousePosition();
   void setMousePosition(double x, double y);
+  ~Window();
 private:
   GLFWwindow* window;
   GLFWmonitor* monitor;
@@ -34,6 +42,18 @@ private:
   int updateFrame;
   void updateFPS();
   glm::vec2 mousePosition;
+};
+
+class WindowManager {
+  public:
+  static WindowManager& getInstance();
+  Window* getActiveWindow();
+  void setActiveWindow(std::unique_ptr<Window> window);
+
+  ~WindowManager();
+
+  private:
+  std::unique_ptr<Window> activeWindow = nullptr;
 };
 
 

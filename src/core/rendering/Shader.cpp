@@ -45,19 +45,19 @@ void Shader::load() {
     glDeleteShader(fragment);
 }
 
-void Shader::update(Window* window) {
+void Shader::update() {
     // pass in time as uTime
     float time = glfwGetTime();
     glUniform1f(getUniformLocation("uTime"), time);
 
     // pass in resolution as uResolution
     int width, height;
-    window->getSize(width, height);
+    WindowManager::getInstance().getActiveWindow()->getSize(width, height);
     glUniform2f(getUniformLocation("uResolution"), width, height);
 
     // pass in the mouse position as uMouse
     double mouseX, mouseY;
-    glfwGetCursorPos(window->getWindow(), &mouseX, &mouseY);
+    glfwGetCursorPos(WindowManager::getInstance().getActiveWindow()->getWindow(), &mouseX, &mouseY);
     mouseY = height - mouseY;
     float normX = static_cast<float>(mouseX) / static_cast<float>(width);
     float normY = static_cast<float>(mouseY) / static_cast<float>(height);

@@ -2,6 +2,7 @@
 #define GAME_ENGINE_CACHESTORE_H
 
 #include <map>
+#include <cstdint>
 
 template <typename T>
 struct CacheStore {

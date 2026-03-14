@@ -14,7 +14,7 @@ const int OPENGL_MINOR_VERSION = 3;
 class Engine {
 public:
   Engine();
-  bool initialize(Window* window);
+  bool initialize(int width, int height, std::string title, bool fullscreen = false);
   double getDeltaTime();
   void update();
   void render();
@@ -22,10 +22,9 @@ public:
   void terminate();
   uint32_t createShader(Shader* shader);
   uint32_t createTexture(Texture* texture);
-  Window* getWindow();
+  bool shouldClose();
   ~Engine();
 private:
-  Window *window;
   double lastFrame;
   double deltaTime;
   CacheStore<Shader*> shaderCache;
