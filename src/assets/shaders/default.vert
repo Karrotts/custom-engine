@@ -6,10 +6,12 @@ layout (location = 2) in vec2 uv;
 
 out vec2 TexCoords;
 
+// default shader uniforms
 uniform float uTime;
 uniform vec2 uResolution;
 uniform vec2 uMouse;
 
+// 3D matrices
 uniform mat4 uModel;
 uniform mat4 uProjection;
 uniform mat4 uView;

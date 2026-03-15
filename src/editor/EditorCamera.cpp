@@ -1,8 +1,15 @@
 #include "EditorCamera.h"
 
+#include <algorithm>
+#include <ranges>
+
 void EditorCamera::process(double deltaTime) {
   processKeyboardInput(deltaTime);
   processMouseInput(deltaTime);
+}
+
+glm::vec3 EditorCamera::getPosition() {
+  return position;
 }
 
 void EditorCamera::processKeyboardInput(double deltaTime) {

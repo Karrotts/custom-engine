@@ -28,7 +28,7 @@ int main() {
   WindowManager::getInstance().getActiveWindow()->displayFPS(true, 20);
 
   // ====== DEFAULT SHADER ======
-  Shader shader("assets/shaders/default.vert", "assets/shaders/default.frag");
+  Shader shader("assets/shaders/gouraud.vert", "assets/shaders/gouraud.frag");
   engine.createShader(&shader);
   shader.use();
 
@@ -51,7 +51,7 @@ int main() {
 
   // dog
   Node3D dog{};
-  Model dogModel = Model::fromFile("assets/meshes/complex/test.obj", "assets/meshes/complex/test.mtl", &defaultMat);
+  Model dogModel = Model::fromFile("assets/meshes/complex/dog.obj", "assets/meshes/complex/dog.mtl", &defaultMat);
   ModelComponent dogModelComponent(&dogModel);
   dog.transform.setScale(glm::vec3(0.25f, 0.25f, 0.25f));
   dog.transform.setRotation(glm::vec3(0.0f, 3.141593f, 0.0f));
@@ -64,6 +64,10 @@ int main() {
 
   root.transform.setPosition(glm::vec3(0.0f, -3.0f, 0.0f));
 
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_FRONT);
+  glFrontFace(GL_CW);
 
   // ====== PROCESS ===========
   while (!engine.shouldClose()) {
@@ -74,10 +78,14 @@ int main() {
     shader.setMat4("uView", camera.getViewMatrix());
     shader.setMat4("uProjection", camera.getProjectionMatrix());
 
+    shader.setVec3("viewPos", camera.getPosition());
+    shader.setVec3("lightPos", glm::vec3(0.0f, 10.0f, 8.0f));
+    shader.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+
     root.process(engine.getDeltaTime());
+    camera.process(engine.getDeltaTime());
 
     engine.pollEvents();
-    camera.process(engine.getDeltaTime());
   }
 
   engine.terminate();

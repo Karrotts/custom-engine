@@ -14,6 +14,7 @@ class EditorCamera : public Camera {
   }
 
   void process(double deltaTime);
+  glm::vec3 getPosition();
 
 private:
   void processKeyboardInput(double deltaTime);
