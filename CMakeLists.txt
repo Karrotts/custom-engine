@@ -33,6 +33,15 @@ add_executable(game_engine
         src/core/rendering/Renderer.h
         src/core/rendering/Model.h
         src/core/util/MtlLoader.h
+        src/nodecomponents/Node.cpp
+        src/nodecomponents/Node.h
+        src/nodecomponents/NodeComponent.h
+        src/nodecomponents/Node3D.cpp
+        src/nodecomponents/Node3D.h
+        src/nodecomponents/components/TransformComponent.cpp
+        src/nodecomponents/components/TransformComponent.h
+        src/nodecomponents/components/ModelComponent.cpp
+        src/nodecomponents/components/ModelComponent.h
 )
 
 include(FetchContent)

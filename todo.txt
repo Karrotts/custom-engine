@@ -1,14 +1,29 @@
-Rendering Pipeline?
+Everything I need for a basic game maybe in my game engine:
 
-1. User Registers Shader with Engine.createShader() returns u_int32 ID
-2. User Registers Texture with Engine.createTexture() returns u_int32 ID
-3. User can create Material which will take in a Shader ID and a Texture ID
-   1. Materials will also have uniforms for the shaders in its use method.
-4. User can create a "Renderable" with a Mesh and a Material
-5. Users can directly add Renderables to the renderer (possibly handled in some other process later) with
-   addRenderable()
-6. In the renderer, each frame, we check the list of renderables and load in the texture and shader and create
-   a new vector for loaded textures and shaders.
-   1. Only load textures and shaders IF they are not in our vector array. Otherwise load the shader and texture and add to vector arrays.
-7. Organize the renderables into a queue ordered by the Texture ID
-8. Render each renderable and apply materials
+1. Asset packing and unpacking (.pak files)
+
+2. Separating the game engine (as library) and game code (as exe)
+
+3. Vertex lighting (Gouraud shading)
+
+4. Nodes and Components
+
+5. Raycast system
+
+6. Collision System (basic AABB)
+
+7. Play sounds
+
+8. GUI system
+   - Text Rendering
+   - Display Images
+   - Draw elements
+
+9. Basic Particle system
+
+10. Cubemap skybox?
+
+11. Editor
+   - See nodes in scene
+   - Edit nodes properties (transform)
+   - Load in nodes

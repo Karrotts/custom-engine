@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "../math/Transform.h"
 #include "../util/MtlLoader.h"
+#include "../util/ObjLoader.h"
 
 struct Model {
   std::vector<std::unique_ptr<Mesh>> meshes;
@@ -52,14 +53,14 @@ struct Model {
     return { std::move(meshMap), std::move(materialMap), defaultMaterial };
   }
 
-  void render() {
+  void render(glm::mat4 transform) {
     for (auto& mesh : meshes) {
       if (mesh->materialIndex >= 0 && mesh->materialIndex < materials.size()) {
         materials[mesh->materialIndex]->use();
-        materials[mesh->materialIndex]->shader->setMat4("uModel", localTransform.getTransformationMatrix());
+        materials[mesh->materialIndex]->shader->setMat4("uModel", localTransform.getTransformationMatrix() * transform);
       } else {
         defaultMaterial->use();
-        defaultMaterial->shader->setMat4("uModel", localTransform.getTransformationMatrix());
+        defaultMaterial->shader->setMat4("uModel", localTransform.getTransformationMatrix() * transform);
       }
       mesh->draw();
     }
