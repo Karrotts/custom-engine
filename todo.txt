@@ -23,6 +23,8 @@ Everything I need for a basic game maybe in my game engine:
 
 10. Cubemap skybox?
 
+11. .glb / gltf import (replace .obj and .mtl)
+
 11. Editor
    - See nodes in scene
    - Edit nodes properties (transform)

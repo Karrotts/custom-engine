@@ -51,7 +51,7 @@ int main() {
 
   // dog
   Node3D dog{};
-  Model dogModel = Model::fromFile("assets/meshes/complex/dog.obj", "assets/meshes/complex/dog.mtl", &defaultMat);
+  Model dogModel = Model::fromFile("assets/meshes/complex/test.obj", "assets/meshes/complex/test.mtl", &defaultMat);
   ModelComponent dogModelComponent(&dogModel);
   dog.transform.setScale(glm::vec3(0.25f, 0.25f, 0.25f));
   dog.transform.setRotation(glm::vec3(0.0f, 3.141593f, 0.0f));
