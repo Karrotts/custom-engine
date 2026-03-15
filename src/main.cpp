@@ -42,7 +42,7 @@ int main() {
 
   // ====== EDITOR CAMERA ======
   EditorCamera camera(PERSPECTIVE, 0.1, 1000);
-  camera.position = glm::vec3(0.0f, 0.0f, 3.0f);
+  camera.position = glm::vec3(0.0f, 2.5f, 20.0f);
 
   // ====== NODE SETUP ========
   Node3D environment{};
@@ -53,14 +53,16 @@ int main() {
   Node3D dog{};
   Model dogModel = Model::fromFile("assets/meshes/complex/dog.obj", "assets/meshes/complex/dog.mtl", &defaultMat);
   ModelComponent dogModelComponent(&dogModel);
-  dog.transform.getTransform()->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
-  dog.transform.getTransform()->setRotation(glm::vec3(0.0f, 1.570796f, 0.0f));
-  dog.transform.getTransform()->setPosition(glm::vec3(0.0f, 1.5f, 3.0f));
+  dog.transform.setScale(glm::vec3(0.25f, 0.25f, 0.25f));
+  dog.transform.setRotation(glm::vec3(0.0f, 3.141593f, 0.0f));
+  dog.transform.setPosition(glm::vec3(0.0f, 2.0f, 1.5f));
   dog.addComponent(&dogModelComponent);
 
   Node3D root{};
   root.addChild(&environment);
   root.addChild(&dog);
+
+  root.transform.setPosition(glm::vec3(0.0f, -3.0f, 0.0f));
 
 
   // ====== PROCESS ===========

@@ -7,13 +7,24 @@
 
 class TransformComponent : public NodeComponent {
   public:
-  Transform* getTransform();
   NodeComponent* deserialize() override;
   std::string serialize() override;
-  glm::mat4 getTransformMatrix();
+  glm::mat4 getLocalMatrix();
+  glm::mat4 getWorldMatrix();
+  glm::vec3 getScale();
+  void setScale(glm::vec3 scale);
+  glm::vec3 getRotation();
+  void setRotation(glm::vec3 rotation);
+  glm::vec3 getPosition();
+  void setPosition(glm::vec3 position);
+  void markWorldDirty();
 
   private:
   Transform transform;
+  glm::mat4 local;
+  glm::mat4 world;
+  bool isLocalDirty = true;
+  bool isWorldDirty = true;
 };
 
 
