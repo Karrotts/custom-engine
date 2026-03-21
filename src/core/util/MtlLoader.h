@@ -95,7 +95,10 @@ struct MtlLoader {
     std::map<std::string, std::unique_ptr<Material>> materials;
     for (auto& it : mtls) {
       Material mat(shader);
-      mat.albedoColor = Color::fromLinear(glm::vec4(it.Kd.x, it.Kd.y, it.Kd.z, 1.0));
+      mat.ambient = it.Ka;
+      mat.diffuse = it.Kd;
+      mat.specular = it.Ks;
+      mat.shininess = it.Ns;
       materials.insert({it.materialName, std::make_unique<Material>(std::move(mat))});
     }
     return materials;

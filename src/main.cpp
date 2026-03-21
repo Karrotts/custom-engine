@@ -13,6 +13,7 @@
 #include "core/util/MtlLoader.h"
 #include "nodecomponents/Node3D.h"
 #include "nodecomponents/components/ModelComponent.h"
+#include "primitives/Sphere.h"
 
 
 int main() {
@@ -28,13 +29,13 @@ int main() {
   WindowManager::getInstance().getActiveWindow()->displayFPS(true, 20);
 
   // ====== DEFAULT SHADER ======
-  Shader shader("assets/shaders/gouraud.vert", "assets/shaders/gouraud.frag");
+  Shader shader("assets/shaders/phong.vert", "assets/shaders/phong.frag");
   engine.createShader(&shader);
   shader.use();
 
   // ====== TEXTURE EXAMPLE ======
-  // Texture texture("assets/textures/tex_DebugUVTiles.png");
-  // engine.createTexture(&texture);
+  Texture texture("assets/textures/tex_DebugUVTiles.png");
+  engine.createTexture(&texture);
 
   // ====== DEFAULT MATERIAL & MODEL ======
   Material defaultMat(&shader);
@@ -58,9 +59,22 @@ int main() {
   dog.transform.setPosition(glm::vec3(0.0f, 2.0f, 1.5f));
   dog.addComponent(&dogModelComponent);
 
+  //sphere
+  Node3D sphere{};
+  Material sphereMat(&shader);
+  sphereMat.albedoTexture = &texture;
+  sphereMat.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+  Mesh sphereMesh = createSphere(0.5, 64);
+  Model sphereModel = Model(std::make_unique<Mesh>(std::move(sphereMesh)), &sphereMat);
+  ModelComponent sphereModelComponent(&sphereModel);
+  sphere.addComponent(&sphereModelComponent);
+  sphere.transform.setPosition(glm::vec3(-5.0f, 3.141593f, 3.0f));
+  sphere.transform.setScale(glm::vec3(4.0f, 4.0f, 4.0f));
+
   Node3D root{};
   root.addChild(&environment);
   root.addChild(&dog);
+  root.addChild(&sphere);
 
   root.transform.setPosition(glm::vec3(0.0f, -3.0f, 0.0f));
 
@@ -72,15 +86,15 @@ int main() {
   // ====== PROCESS ===========
   while (!engine.shouldClose()) {
     engine.update();
-    engine.render();
 
     shader.update();
-    shader.setMat4("uView", camera.getViewMatrix());
-    shader.setMat4("uProjection", camera.getProjectionMatrix());
 
-    shader.setVec3("viewPos", camera.getPosition());
-    shader.setVec3("lightPos", glm::vec3(0.0f, 10.0f, 8.0f));
-    shader.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+    camera.setShaderProperties(&shader);
+
+    shader.setVec3("light.ambient", glm::vec3(0.0f));
+    shader.setVec3("light.diffuse", glm::vec3(1.0f, 1.0f, 1.0f));
+    shader.setVec3f("light.specular", 1.0f, 1.0f, 1.0f);
+    shader.setVec3("light.position", glm::vec3(0.0f, 10.0f, 8.0f));
 
     root.process(engine.getDeltaTime());
     camera.process(engine.getDeltaTime());

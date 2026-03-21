@@ -8,7 +8,10 @@
 struct Material {
   Texture* albedoTexture = nullptr;
   Shader* shader = nullptr;
-  Color albedoColor;
+  glm::vec3 ambient;
+  glm::vec3 diffuse;
+  glm::vec3 specular;
+  float shininess;
 
   Material(const Material&) = delete;
   Material& operator=(const Material&) = delete;
@@ -17,15 +20,20 @@ struct Material {
   Material& operator=(Material&&) = default;
 
 
-  Material(Shader* shader) : albedoColor(WHITE), shader(shader) {}
+  Material(Shader* shader) : shader(shader) {}
 
   void use() {
-    shader->setVec4("uAlbedoColor", albedoColor.linear);
+    shader->setVec3("material.diffuse", diffuse);
+    shader->setVec3("material.specular", specular);
+    shader->setVec3("material.ambient", ambient);
+    shader->setFloat("material.shininess", shininess);
+    shader->setBool("material.useAlbedoTexture", false);
+
     if (albedoTexture) {
       albedoTexture->textureSlot = 0;
       albedoTexture->use(); // TODO: move to cache
-      shader->setBool("uUseAlbedoTexture", true);
-      shader->setInt("uAlbedoTexture", albedoTexture->textureSlot);
+      shader->setBool("material.useAlbedoTexture", true);
+      shader->setInt("material.albedoTexture", albedoTexture->textureSlot);
     }
   }
 };

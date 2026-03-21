@@ -31,6 +31,12 @@ glm::mat4 Camera::getViewMatrix() {
   return glm::lookAt(position, position + front, up);
 }
 
+void Camera::setShaderProperties(Shader *shader) {
+  shader->setMat4("camera.view", getViewMatrix());
+  shader->setMat4("camera.projection", getProjectionMatrix());
+  shader->setVec3("camera.position", position);
+}
+
 void Camera::updateProjectionMatrix() {
   int width, height;
   WindowManager::getInstance().getActiveWindow()->getSize(width, height);

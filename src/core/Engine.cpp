@@ -42,6 +42,7 @@ double Engine::getDeltaTime() {
 void Engine::update() {
   this->updateDeltaTime();
   WindowManager::getInstance().getActiveWindow()->tick(deltaTime);
+  this->render();
 }
 
 void Engine::terminate() {

@@ -1,6 +1,7 @@
 #ifndef GAME_ENGINE_CAMERA_H
 #define GAME_ENGINE_CAMERA_H
 
+#include "Shader.h"
 #include "../Window.h"
 #include "../math/Transform.h"
 
@@ -31,6 +32,7 @@ class Camera {
 
   glm::mat4 getProjectionMatrix();
   glm::mat4 getViewMatrix();
+  void setShaderProperties(Shader* shader);
 
   protected:
   CameraMode mode;
