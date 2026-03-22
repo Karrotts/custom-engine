@@ -10,7 +10,7 @@ class EditorCamera : public Camera {
   float zoom;
 
   EditorCamera(CameraMode mode = PERSPECTIVE, float near = 0.1f, float far = 100.0f, float fov = 45.0f)
-    : Camera(mode, near, far, fov), movementSpeed(5.0f), mouseSensitivity(5.0), zoom(0) {
+    : Camera(mode, near, far, fov), movementSpeed(10.0f), mouseSensitivity(5.0), zoom(0) {
   }
 
   void process(double deltaTime);

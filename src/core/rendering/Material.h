@@ -7,6 +7,7 @@
 
 struct Material {
   Texture* albedoTexture = nullptr;
+  Texture* specularTexture = nullptr;
   Shader* shader = nullptr;
   glm::vec3 ambient;
   glm::vec3 diffuse;
@@ -28,12 +29,20 @@ struct Material {
     shader->setVec3("material.ambient", ambient);
     shader->setFloat("material.shininess", shininess);
     shader->setBool("material.useAlbedoTexture", false);
+    shader->setBool("material.useSpecularTexture", false);
 
     if (albedoTexture) {
       albedoTexture->textureSlot = 0;
-      albedoTexture->use(); // TODO: move to cache
+      albedoTexture->use();
       shader->setBool("material.useAlbedoTexture", true);
       shader->setInt("material.albedoTexture", albedoTexture->textureSlot);
+    }
+
+    if (specularTexture) {
+      specularTexture->textureSlot = 1;
+      specularTexture->use();
+      shader->setBool("material.useSpecularTexture", true);
+      shader->setInt("material.specularTexture", specularTexture->textureSlot);
     }
   }
 };

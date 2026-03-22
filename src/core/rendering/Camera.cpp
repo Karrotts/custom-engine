@@ -34,7 +34,7 @@ glm::mat4 Camera::getViewMatrix() {
 void Camera::setShaderProperties(Shader *shader) {
   shader->setMat4("camera.view", getViewMatrix());
   shader->setMat4("camera.projection", getProjectionMatrix());
-  shader->setVec3("camera.position", position);
+  shader->setVec3("camera.worldPosition", position);
 }
 
 void Camera::updateProjectionMatrix() {

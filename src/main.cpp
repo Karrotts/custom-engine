@@ -59,11 +59,13 @@ int main() {
   dog.transform.setPosition(glm::vec3(0.0f, 2.0f, 1.5f));
   dog.addComponent(&dogModelComponent);
 
-  //sphere
+  // sphere
   Node3D sphere{};
   Material sphereMat(&shader);
   sphereMat.albedoTexture = &texture;
   sphereMat.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+  sphereMat.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+  sphereMat.shininess = 1000.0f;
   Mesh sphereMesh = createSphere(0.5, 64);
   Model sphereModel = Model(std::make_unique<Mesh>(std::move(sphereMesh)), &sphereMat);
   ModelComponent sphereModelComponent(&sphereModel);
@@ -71,13 +73,34 @@ int main() {
   sphere.transform.setPosition(glm::vec3(-5.0f, 3.141593f, 3.0f));
   sphere.transform.setScale(glm::vec3(4.0f, 4.0f, 4.0f));
 
+  // cube
+  Node3D cube{};
+  Material cubeMat(&shader);
+  Texture cubeDiffuse("assets/textures/box_diffuse.png");
+  Texture cubeSpecular("assets/textures/box_specular.png");
+  engine.createTexture(&cubeDiffuse);
+  engine.createTexture(&cubeSpecular);
+  cubeMat.albedoTexture = &cubeDiffuse;
+  cubeMat.specularTexture = &cubeSpecular;
+  cubeMat.shininess = 1000.0f;
+  cubeMat.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+  cubeMat.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+  std::map<std::string, std::unique_ptr<Mesh>> cubeMeshMap = ObjLoader("assets/meshes/cube.obj").getMeshes();
+  Model cubeModel = Model(std::move(cubeMeshMap["engine_default"]), &cubeMat);
+  ModelComponent cubeModelComponent(&cubeModel);
+  cube.addComponent(&cubeModelComponent);
+  cube.transform.setPosition(glm::vec3(0.0f, 10.0f, 4.0f));
+  cube.transform.setRotation(glm::vec3(0.0f, 3.141593f, 0.0f));
+
+  // Scene Setup
   Node3D root{};
   root.addChild(&environment);
   root.addChild(&dog);
   root.addChild(&sphere);
-
+  root.addChild(&cube);
   root.transform.setPosition(glm::vec3(0.0f, -3.0f, 0.0f));
 
+  // todo: these should be moved to renderer
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
   glCullFace(GL_FRONT);
@@ -92,9 +115,11 @@ int main() {
     camera.setShaderProperties(&shader);
 
     shader.setVec3("light.ambient", glm::vec3(0.0f));
-    shader.setVec3("light.diffuse", glm::vec3(1.0f, 1.0f, 1.0f));
-    shader.setVec3f("light.specular", 1.0f, 1.0f, 1.0f);
-    shader.setVec3("light.position", glm::vec3(0.0f, 10.0f, 8.0f));
+    shader.setVec3("light.diffuse", glm::vec3(1.0f));
+    shader.setVec3("light.specular", glm::vec3(1.0f));
+    shader.setVec3("light.position", glm::vec3(0.0f, std::sin(0.5f * glfwGetTime()) * 10.0f + 10.0f, 8.0f));
+
+    cube.transform.setRotation(glm::vec3(-0.8f * glfwGetTime(), -0.8f * glfwGetTime(), -0.8f * glfwGetTime()));
 
     root.process(engine.getDeltaTime());
     camera.process(engine.getDeltaTime());
